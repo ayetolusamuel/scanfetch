@@ -8,6 +8,7 @@ import android.view.*
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.MutableLiveData
 import com.codingwithset.sotech.images.fragment.DashBoardAdapter
 import com.codingwithset.sotech.images.fragment.ExitAppDialogFragment
 import com.codingwithset.sotech.utils.readJsonAsset
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     var isTracking = false
     var model: Model? = null
     private var count = 0
+    val mutableScannerTracker = MutableLiveData<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +32,9 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(tool_bar)
 
 
-
+        scan_barcode.setOnClickListener {
+            scanBarcode()
+        }
 
 
 
@@ -47,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                 val data = getDetails(result)
                 if (data != null) {
                     val list = listOf(
-                        data.img1, data.img2, data.img3
+                            data.img1, data.img2, data.img3
 
                     )
                     val adapter = DashBoardAdapter.getInstance(supportFragmentManager, list)
@@ -60,16 +64,20 @@ class MainActivity : AppCompatActivity() {
 
                     if (data.price.isEmpty()) {
                         Toast.makeText(
-                            this,
-                            "No record found for the barcode!!",
-                            Toast.LENGTH_SHORT
+                                this,
+                                "No record found for the barcode!!",
+                                Toast.LENGTH_SHORT
                         ).show()
                         scan_image.visibility = View.VISIBLE
                         layout1.visibility = View.INVISIBLE
                         layout2.visibility = View.INVISIBLE
                         tool_bar.visibility = View.VISIBLE
+                        spin_kit.visibility = View.GONE
+                        scan_barcode.visibility = View.VISIBLE
+                        mutableScannerTracker.value = false
                         return
                     }
+                    mutableScannerTracker.value = true
                     model = data
                     viewVisible()
                     spin_kit.visibility = View.GONE
@@ -77,6 +85,9 @@ class MainActivity : AppCompatActivity() {
                     price.text = "₦${data.price}"
                     product_code.text = data.skuCode
                     description.text = data.description
+                    scan_barcode.visibility = View.GONE
+
+
                 }
             }
         } catch (ex: Exception) {
@@ -190,6 +201,21 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+       val menuItem = menu?.findItem(R.id.search)
+        mutableScannerTracker.observeForever {
+
+            if (it){
+                runOnUiThread {   menuItem?.isVisible = true }
+            }else{
+                runOnUiThread {   menuItem?.isVisible = false
+                scan_barcode.visibility = View.VISIBLE
+                }
+            }
+        }
+invalidateOptionsMenu()
+        return true
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater: MenuInflater = menuInflater
@@ -200,11 +226,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.search -> {
-                layout1.visibility = View.INVISIBLE
-                layout2.visibility = View.INVISIBLE
-                startActivity(Intent(this, LiveBarcodeScanningActivity::class.java))
 
-
+scanBarcode()
             }
             R.id.share -> {
                 share()
@@ -214,6 +237,12 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    fun scanBarcode() {
+        layout1.visibility = View.INVISIBLE
+        layout2.visibility = View.INVISIBLE
+        startActivity(Intent(this, LiveBarcodeScanningActivity::class.java))
+
+    }
 
     override fun onResume() {
         super.onResume()
@@ -236,6 +265,7 @@ class MainActivity : AppCompatActivity() {
             scan_image.visibility = View.VISIBLE
             layout1.visibility = View.INVISIBLE
             layout2.visibility = View.INVISIBLE
+            scan_barcode.visibility = View.VISIBLE
 
         }, 3000)
     }
@@ -259,7 +289,7 @@ class MainActivity : AppCompatActivity() {
             sendIntent.type = "text/plain"
             startActivity(sendIntent)
         } else {
-            Toast.makeText(this, "Unable to Share,scan first", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Unable to Share, scan first", Toast.LENGTH_SHORT).show()
             tool_bar.visibility = View.VISIBLE
         }
 

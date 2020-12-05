@@ -17,5 +17,5 @@
         app:layout_constraintTop_toTopOf="parent"
         android:background="@drawable/logo_background"
         android:padding="32dp"
-        app:srcCompat="@drawable/scan_search" />
+        app:srcCompat="@drawable/scan_fetch" />
 </androidx.constraintlayout.widget.ConstraintLayout>

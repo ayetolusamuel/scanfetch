@@ -13,6 +13,7 @@
         android:id="@+id/tool_bar"
         android:visibility="invisible"
         android:layout_width="match_parent"
+        app:titleTextColor="#546BEA"
         android:layout_height="?actionBarSize"/>
 
 
@@ -158,10 +159,24 @@
         android:id="@+id/scan_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       android:layout_below="@id/spin_kit"
+       android:layout_alignParentBottom="true"
                android:layout_marginTop="?actionBarSize"
-        android:src="@drawable/scan_search"
+        android:src="@drawable/scan_fetch"
         />
+
+    <TextView
+        android:id="@+id/scan_barcode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:padding="16dp"
+        android:background="@drawable/border_bottom_round_background"
+        android:layout_margin="8dp"
+        android:textColor="#546BEA"
+        android:visibility="gone"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:text="Scan Barcode"/>
 
 
 </RelativeLayout>
