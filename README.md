@@ -9,7 +9,7 @@ Scan Barcodes with ML Kit on Android: [https://developers.google.com/ml-kit/visi
 QR Barcode generator: [http://www.barcode-generator.org/#text](http://www.barcode-generator.org/#text).
 
 
-Click [https://drive.google.com/drive/folders/1yK58oI5qIlOujATeefSBg62txunXwstj?usp=sharing](here) to the link to bar code images use for the project.
+Click [here](https://drive.google.com/drive/folders/1yK58oI5qIlOujATeefSBg62txunXwstj?usp=sharing) to the link to bar code images use for the project.
 
 
 
