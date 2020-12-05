@@ -74,40 +74,8 @@ class WorkflowModel(application: Application) : AndroidViewModel(application) {
         this.workflowState.value = workflowState
     }
 
-    @MainThread
-    fun confirmingObject(confirmingObject: DetectedObjectInfo, progress: Float) {
-        val isConfirmed = progress.compareTo(1f) == 0
-        if (isConfirmed) {
-            confirmedObject = confirmingObject
-            if (PreferenceUtils.isAutoSearchEnabled(context)) {
-                setWorkflowState(WorkflowState.SEARCHING)
-                triggerSearch(confirmingObject)
-            } else {
-                setWorkflowState(WorkflowState.CONFIRMED)
-            }
-        } else {
-            setWorkflowState(WorkflowState.CONFIRMING)
-        }
-    }
 
-    @MainThread
-    fun onSearchButtonClicked() {
-        confirmedObject?.let {
-            setWorkflowState(WorkflowState.SEARCHING)
-            triggerSearch(it)
-        }
-    }
 
-    private fun triggerSearch(detectedObject: DetectedObjectInfo) {
-        val objectId = detectedObject.objectId ?: throw NullPointerException()
-        if (objectIdsToSearch.contains(objectId)) {
-            // Already in searching.
-            return
-        }
-
-        objectIdsToSearch.add(objectId)
-        objectToSearch.value = detectedObject
-    }
 
     fun markCameraLive() {
         isCameraLive = true
