@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
                         spin_kit.visibility = View.GONE
                         scan_barcode.visibility = View.VISIBLE
                         mutableScannerTracker.value = false
+                        copyright.visibility = View.VISIBLE
                         return
                     }
                     mutableScannerTracker.value = true
@@ -101,7 +102,8 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
 
         if (count == 0) {
-            customToast(resources.getString(R.string.confirm_once_again))
+            Toast.makeText(this,getString(R.string.confirm_once_again),Toast.LENGTH_SHORT).show()
+            //customToast(resources.getString(R.string.confirm_once_again))
             count++
         } else if (count == 1) {
             val dialog = ExitAppDialogFragment()

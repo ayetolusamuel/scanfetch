@@ -11,10 +11,10 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/tool_bar"
-        android:visibility="invisible"
         android:layout_width="match_parent"
-        app:titleTextColor="#546BEA"
-        android:layout_height="?actionBarSize"/>
+        android:layout_height="?actionBarSize"
+        android:visibility="invisible"
+        app:titleTextColor="#546BEA" />
 
 
     <RelativeLayout
@@ -33,21 +33,23 @@
             android:id="@+id/image_layout"
             android:layout_width="match_parent"
             android:layout_height="300dp">
+
             <androidx.viewpager.widget.ViewPager
 
                 android:id="@+id/pager"
                 android:layout_width="match_parent"
                 android:layout_height="300dp" />
+
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tab_layout"
-                android:layout_marginBottom="32dp"
                 android:layout_width="wrap_content"
-                android:layout_gravity="bottom|center"
-                android:background="@null"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="32dp"
+                android:background="@null"
                 app:tabBackground="@drawable/tab_selector"
                 app:tabGravity="center"
-                app:tabIndicatorHeight="0dp"/>
+                app:tabIndicatorHeight="0dp" />
 
         </FrameLayout>
 
@@ -72,8 +74,8 @@
             android:layout_marginTop="8dp"
             android:padding="8dp"
             android:text="Product Code:"
-            android:visibility="invisible"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/product_code"
@@ -85,10 +87,10 @@
             android:layout_toRightOf="@id/product_code_label"
             android:padding="8dp"
             android:text="2344455666"
-            android:visibility="invisible"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="invisible" />
 
 
         <TextView
@@ -98,9 +100,9 @@
             android:layout_below="@id/product_code_label"
             android:layout_marginTop="8dp"
             android:padding="8dp"
-            android:visibility="invisible"
             android:text="Price: "
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/price"
@@ -112,10 +114,10 @@
             android:layout_toRightOf="@id/price_label"
             android:padding="8dp"
             android:text="#12,0000"
-            android:visibility="invisible"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 
@@ -132,12 +134,12 @@
             android:layout_height="match_parent"
             android:padding="8dp"
             android:text=""
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/white"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:textColor="@android:color/white"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             app:layout_constraintRight_toRightOf="parent"
-            android:visibility="invisible"
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.core.widget.NestedScrollView>
@@ -148,9 +150,9 @@
         style="@style/SpinKitView.Small.ThreeBounce"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:padding="16dp"
         android:visibility="visible"
 
         app:SpinKit_Color="@android:color/black" />
@@ -159,24 +161,36 @@
         android:id="@+id/scan_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-       android:layout_alignParentBottom="true"
-               android:layout_marginTop="?actionBarSize"
-        android:src="@drawable/scan_fetch"
-        />
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="?actionBarSize"
+        android:layout_marginBottom="12dp"
+        android:src="@drawable/scan_fetch" />
 
     <TextView
         android:id="@+id/scan_barcode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+        android:background="@drawable/border_bottom_round_background"
         android:gravity="center"
         android:padding="16dp"
-        android:background="@drawable/border_bottom_round_background"
-        android:layout_margin="8dp"
-        android:textColor="#546BEA"
-        android:visibility="gone"
+        android:text="Scan Barcode"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:text="Scan Barcode"/>
+        android:textColor="#546BEA"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/copyright"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:text="©Pedektech"
+        android:padding="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#546BEA" />
 
 
 </RelativeLayout>
