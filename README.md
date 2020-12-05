@@ -5,5 +5,6 @@ scan barcode and fetch information from json file
 
 ### Resources
 Scan Barcodes with ML Kit on Android: [https://developers.google.com/ml-kit/vision/barcode-scanning/android](https://developers.google.com/ml-kit/vision/barcode-scanning/android).
+
 QR Barcode generator: [http://www.barcode-generator.org/#text](http://www.barcode-generator.org/#text).
 
