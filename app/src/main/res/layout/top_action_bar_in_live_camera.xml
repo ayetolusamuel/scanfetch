@@ -13,6 +13,7 @@
       android:layout_height="wrap_content"
       android:layout_gravity="start"
       android:padding="@dimen/top_action_button_padding"
+      android:visibility="invisible"
       android:contentDescription="@string/cd_close_button"
       app:srcCompat="@drawable/ic_close_vd_white_24"/>
 

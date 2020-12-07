@@ -4,6 +4,7 @@ import android.cims.chams.com.osun.dashbord.util.DepthPageTransformer
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.os.PersistableBundle
 import android.view.*
 import android.widget.TextView
 import android.widget.Toast
@@ -11,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import com.codingwithset.sotech.images.fragment.DashBoardAdapter
 import com.codingwithset.sotech.images.fragment.ExitAppDialogFragment
+import com.codingwithset.sotech.utils.getFrag
 import com.codingwithset.sotech.utils.readJsonAsset
+import com.codingwithset.sotech.utils.saveFrag
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.custom_toast.*
 import org.json.JSONArray
@@ -24,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     var isTracking = false
     var model: Model? = null
     private var count = 0
-    val mutableScannerTracker = MutableLiveData<Boolean>()
+    private val mutableScannerTracker = MutableLiveData<Boolean>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +49,7 @@ class MainActivity : AppCompatActivity() {
             value = intent.getStringExtra("value")
 
 
+
             if (value!!.isNotEmpty()) {
                 val result = value
                 val data = getDetails(result)
@@ -63,9 +67,10 @@ class MainActivity : AppCompatActivity() {
 
 
                     if (data.price.isEmpty()) {
+                        val rawValue = intent.getStringExtra("raw_value")
                         Toast.makeText(
                                 this,
-                                "No record found for the barcode!!",
+                                "No record found for the barcode!! $rawValue",
                                 Toast.LENGTH_SHORT
                         ).show()
                         scan_image.visibility = View.VISIBLE
@@ -93,7 +98,6 @@ class MainActivity : AppCompatActivity() {
             }
         } catch (ex: Exception) {
             delay5()
-
             ex.printStackTrace()
         }
 
@@ -102,7 +106,7 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
 
         if (count == 0) {
-            Toast.makeText(this,getString(R.string.confirm_once_again),Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.confirm_once_again), Toast.LENGTH_SHORT).show()
             //customToast(resources.getString(R.string.confirm_once_again))
             count++
         } else if (count == 1) {
@@ -204,18 +208,19 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
-       val menuItem = menu?.findItem(R.id.search)
+        val menuItem = menu?.findItem(R.id.search)
         mutableScannerTracker.observeForever {
 
-            if (it){
-                runOnUiThread {   menuItem?.isVisible = true }
-            }else{
-                runOnUiThread {   menuItem?.isVisible = false
-                scan_barcode.visibility = View.VISIBLE
+            if (it) {
+                runOnUiThread { menuItem?.isVisible = true }
+            } else {
+                runOnUiThread {
+                    menuItem?.isVisible = false
+                    scan_barcode.visibility = View.VISIBLE
                 }
             }
         }
-invalidateOptionsMenu()
+        invalidateOptionsMenu()
         return true
     }
 
@@ -229,7 +234,10 @@ invalidateOptionsMenu()
         when (item.itemId) {
             R.id.search -> {
 
-scanBarcode()
+                if (model != null){
+                    saveFrag(model!!)
+                }
+                scanBarcode()
             }
             R.id.share -> {
                 share()
@@ -249,9 +257,24 @@ scanBarcode()
     override fun onResume() {
         super.onResume()
         try {
-            if (model?.price == null) {
+            if (model == null){
                 scan_image.visibility = View.VISIBLE
             }
+           else if (model?.price == null) {
+                scan_image.visibility = View.VISIBLE
+            }
+//            model = getFrag()
+//            mutableScannerTracker.value = true
+//           val data = model
+//            viewVisible()
+//            spin_kit.visibility = View.GONE
+//            product_name.text = data!!.name
+//            price.text = "₦${data.price}"
+//            product_code.text = data.skuCode
+//            description.text = data.description
+//            scan_barcode.visibility = View.GONE
+
+
         } catch (exc: Exception) {
             exc.printStackTrace()
         }
@@ -295,6 +318,17 @@ scanBarcode()
             tool_bar.visibility = View.VISIBLE
         }
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (model != null)
+        outState.putParcelable("bar_code_data",model)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
+        super.onRestoreInstanceState(savedInstanceState)
+        model = savedInstanceState.getParcelable("bar_code_data")
     }
 
 }

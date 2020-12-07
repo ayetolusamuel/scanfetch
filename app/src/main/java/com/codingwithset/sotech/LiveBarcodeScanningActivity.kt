@@ -112,7 +112,8 @@ class LiveBarcodeScanningActivity : AppCompatActivity(), OnClickListener {
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.close_button -> onBackPressed()
+          //  R.id.close_button -> onBackPressed()
+
             R.id.flash_button -> {
                 flashButton?.let {
                     if (it.isSelected) {
@@ -204,17 +205,25 @@ class LiveBarcodeScanningActivity : AppCompatActivity(), OnClickListener {
                 val barcodeFieldList = ArrayList<BarcodeField>()
                 barcodeFieldList.add(BarcodeField("Raw Value", barcode.rawValue ?: ""))
                 val intent = Intent(this, MainActivity::class.java)
+
                 intent.putExtra("value", barcode.displayValue)
+                intent.putExtra("raw_value", barcode.rawValue)
+
+
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 startActivity(intent)
                 finish()
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out)
 
 //                startActivity(intent)
-                println("Bar code ${barcode.displayValue}")
                 // BarcodeResultFragment.show(supportFragmentManager, barcodeFieldList)
             }
         })
+    }
+
+
+    override fun onBackPressed() {
+
     }
 
     companion object {
